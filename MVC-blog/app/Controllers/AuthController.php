@@ -13,7 +13,7 @@ class AuthController
 
     public function showLogin(): void
     {
-        \App\Middleware\GuestMiddleware::handle();
+        \App\Middleware\GuestMiddleware::handle(); // Kiểm tra phiên đăng nhập bằng Middleware
         $_SESSION['csrf'] = bin2hex(random_bytes(16));     // tạo token CSRF mới
         require __DIR__ . '/../Views/auth/login.php';
     }
@@ -21,7 +21,7 @@ class AuthController
     public function showRegister(): void
     {
         \App\Middleware\GuestMiddleware::handle();
-        $_SESSION['csrf'] = bin2hex(random_bytes(16));  // tạo token CSRF mới
+        $_SESSION['csrf'] = bin2hex(random_bytes(16));  
         require __DIR__ . '/../Views/auth/register.php';
     }
 
@@ -70,6 +70,7 @@ class AuthController
         header('Location: ' . BASE_URI . '/');
         exit;
     }
+     // Đăng nhập
 
     public function login(): void
     {
@@ -98,6 +99,7 @@ class AuthController
         exit;
     }
 
+    // Đăng xuất 
     public function logout(): void
     {
          \App\Middleware\AuthMiddleware::handle();

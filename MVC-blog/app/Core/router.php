@@ -32,7 +32,7 @@ class Router
         });
 
         /*
-         | 2) Chuẩn hoá URI
+        2/ Chuẩn hoá URI
          *      – bỏ query string
          *      – cắt dấu / cuối
          *      – loại bỏ prefix /MVC-blog/public để còn /login, /,...
@@ -48,7 +48,7 @@ class Router
         }
 
       
-         // 3) Dispatch tới controller phù hợp*
+         // 3) Dispatch tới controller phù hợp
         $routeInfo = $dispatcher->dispatch($method, $uri);
 
         switch ($routeInfo[0]) {
@@ -63,11 +63,11 @@ class Router
                 return;
 
             case \FastRoute\Dispatcher::FOUND:
-                [$ctrl, $action] = explode('@', $routeInfo[1]);
-                $vars  = $routeInfo[2];                       // biến {id}
+                [$ctrl, $action] = explode('@', $routeInfo[1]); // Lấy tên Controller + Method tương ứng
+                $vars  = $routeInfo[2];                       // lấy biến {id}
                 $class = 'App\\Controllers\\' . $ctrl;
 
-                call_user_func_array([new $class, $action], $vars);
+                call_user_func_array([new $class, $action], $vars); // tạo 1 controller mới và gọi đến method tương ứng
                 return;
         }
     }

@@ -34,7 +34,7 @@ class Validator
     {
         return $this->errors;
     }
-    public function addError($field, $msg) { // Hàm get lấy biến error ngoài private
+    public function addError($field, $msg) { // Hàm lấy biến error ra ngoài private
     $this->errors[$field][] = $msg;
     }
 
