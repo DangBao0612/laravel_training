@@ -9,6 +9,13 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable
 {
+    // CHẶN mass assignment cho is_admin
+    protected $guarded = ['is_admin'];
+
+    // hoặc:
+    // protected $fillable = ['first_name', 'last_name', 'username', 'email', 'password'...]; cái này cho phép các cột được chỉ định đc Mass assignment, an toàn hơn, nhưng phải cập nhật thủ công từng cột được phép
+    // // KHÔNG thêm 'is_admin' vào $fillable, đây là trường cần bảo vệ
+
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
@@ -17,12 +24,8 @@ class User extends Authenticatable
      *
      * @var list<string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
 
+    
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -45,4 +48,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class); // 1 user -> many tasks
+    }
+
 }
