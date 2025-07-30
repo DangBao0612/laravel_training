@@ -1,7 +1,7 @@
 <?php
 
 namespace Database\Factories;
-
+// Factory của model User
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

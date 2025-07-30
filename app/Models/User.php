@@ -49,9 +49,14 @@ class User extends Authenticatable
         ];
     }
 
-    public function tasks()
-    {
+    public function tasks(){
         return $this->hasMany(Task::class); // 1 user -> many tasks
+    }
+
+    public function offices(){
+        return $this->belongsToMany(Office::class) // n ∈ n
+                ->withPivot('title') // Bảng trung gian (office_user) sẽ có thêm bảng title
+                ->withTimestamps(); // Tự động quản lý 2 cột created_at và updated_at cho office_user
     }
 
 }
