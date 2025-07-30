@@ -5,16 +5,21 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
 
 Route::get('/', function () {
-    return ('Hello World from Laravel');
+    return ('Hello World from Laravel'); // Test PJ
 });
 
-/* resource của Laravel tự động sinh 7 route REST chỉ trong 1 dòng, ko cần phải tọa thủ công */
+/* resource của Laravel tự động sinh 7 route REST chỉ trong 1 dòng, ko cần phải tạo thủ công */
 
-//Route::resource('user', UserController::class)->names('user');     
+Route::resource('users', UserController::class)
+    ->names('users')
+    ->middleware('superadmin');
 
-//Route::resource('task', TaskController::class)->names('task');
+Route::resource('task', TaskController::class)
+    ->names('task')
+    ->middleware('superadmin');
 
-/* ---------Route của user----------*/
+
+/* ---------Route của user---------- (Tạo thủ công)
 // index
 Route::get('/user', [UserController::class, 'index'])
     ->name('user.index');
@@ -43,7 +48,8 @@ Route::put('/user/{user}', [UserController::class, 'update'])
 Route::delete('/user/{user}', [UserController::class, 'destroy'])
     ->name('user.destroy');
 
-/*-------Route của task-------*/
+
+-------Route của task-------
 // index
 Route::get('/task', [TaskController::class, 'index'])
     ->name('task.index');
@@ -58,7 +64,7 @@ Route::post('/task', [TaskController::class, 'store'])
 
 // show single task
 Route::get('/task/{task}', [TaskController::class, 'show'])
-    ->name('task.show');
+	->name('task.show');
 
 // edit form
 Route::get('/task/{task}/edit', [TaskController::class, 'edit'])
@@ -72,3 +78,6 @@ Route::put('/task/{task}', [TaskController::class, 'update'])
 Route::delete('/task/{task}', [TaskController::class, 'destroy'])
     ->name('task.destroy');
 
+Route::resource('users', UserController::class)
+     ->names('users')
+*/
