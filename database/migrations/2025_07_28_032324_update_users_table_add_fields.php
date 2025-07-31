@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+
     public function up(): void // Thay đổi cấu trúc migration của user
     {
         Schema::table('users', function (Blueprint $table) {
@@ -20,9 +18,10 @@ return new class extends Migration
             // 2. đổi 'name' -> 'first_name' + 'last_name'
             $table->dropColumn('name'); // Xóa cột name
             $table->string('first_name')->after('id'); // Thêm first_name
-            $table->string('last_name')->after('first_name'); // Thêm lase_name
+            $table->string('last_name')->after('first_name'); // Thêm last_name
         });
     }
+
 
     /**
      * Reverse the migrations.
