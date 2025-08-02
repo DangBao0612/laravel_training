@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\LangController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,5 +28,8 @@ Route::middleware('auth')->group(function () {
     Route::resource('task', TaskController::class)
         ->names('task')
         ->middleware('superadmin');
-    
+
+    Route::get('lang/{locale}', [LangController::class, 'switch'])
+        ->name('lang.switch');
+
 require __DIR__.'/auth.php';

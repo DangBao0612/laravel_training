@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+
+        // Thêm middleware LanguageMiddleware vào nhóm web
+        $middleware->appendToGroup('web', \App\Http\Middleware\LanguageMiddleware::class);
+            
+        // Đăng ký alias 'superadmin' cho CheckSuperAdmin
+        $middleware->alias(['superadmin' => \App\Http\Middleware\CheckSuperAdmin::class,]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
