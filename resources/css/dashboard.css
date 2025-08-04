@@ -1,0 +1,8 @@
+/* 1. Bootstrap core */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* 2. Light Bootstrap Dashboard */
+@import "../css/template/light-bootstrap-dashboard.css";
+
+/* 3. Demo */
+@import "../css/template/demo.css";
