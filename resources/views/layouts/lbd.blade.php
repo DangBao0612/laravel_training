@@ -45,7 +45,15 @@
                         <p>Dashboard</p>
                     </a>
                 </li>
-                {{-- add more items or convert to Laravel routes as you build --}}
+
+                {{-- User sidebar --}}
+                <li class="nav-item {{ Request::is('users*') ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('users.index') }}">
+                        <i class="material-icons">...</i>
+                        <p>Users</p>
+                    </a>
+                </li>
+
             </ul>
         </div>
     </div>
