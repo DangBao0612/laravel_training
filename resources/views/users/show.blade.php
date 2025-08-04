@@ -32,17 +32,22 @@
                 <span class="badge badge-secondary">No</span>
               @endif
             </td>
-            <td>
-              <a href="{{ route('task.edit', $task) }}"
-                 class="btn btn-sm btn-primary">Edit</a>
-              <form action="{{ route('task.destroy', $task) }}"
-                    method="POST" class="d-inline">
+            <td class="d-flex gap-1">
+              {{-- Nút Edit --}}
+              <a href="{{ route('task.edit', $task->id) }}?user_id={{ $user->id }}"
+                 class="btn btn-sm btn-primary">
+                Edit
+              </a>
+
+              {{-- Form Delete --}}
+              <form action="{{ route('task.destroy', $task->id) }}"
+                    method="POST"
+                    onsubmit="return confirm('Bạn có chắc muốn xóa task này?');">
                 @csrf
                 @method('DELETE')
-                <button class="btn btn-sm btn-danger"
-                        onclick="return confirm('Xóa task này?')">
-                  Delete
-                </button>
+                {{-- chuyển user_id để redirect về đúng User --}}
+                <input type="hidden" name="user_id" value="{{ $user->id }}">
+                <button class="btn btn-sm btn-danger">Delete</button>
               </form>
             </td>
           </tr>

@@ -12,6 +12,8 @@
           <th>ID</th>
           <th>Tên</th>
           <th>Email</th>
+          <th># Task</th>
+          <th>Danh sách Task</th>
           <th>Hành động</th>
         </tr>
       </thead>
@@ -21,20 +23,28 @@
             <td>{{ $user->id }}</td>
             <td>{{ $user->name }}</td>
             <td>{{ $user->email }}</td>
+            <td>{{ $user->tasks->count() }}</td>
             <td>
-              <!-- Nút Xem chi tiết (show) -->
-              <a href="{{ route('users.show', $user) }}"
-                 class="btn btn-sm btn-info">
-                View
-              </a>
-              <!-- Nút Sửa (edit) và Xóa (delete) -->
+              @if($user->tasks->isEmpty())
+                <em>Chưa có task</em>
+              @else
+                <ul class="mb-0 ps-3 list-unstyled">
+                  @foreach($user->tasks as $task)
+                    <li>{{ $task->title }}</li>
+                  @endforeach
+                </ul>
+              @endif
+            </td>
+            <td class="d-flex gap-1">
+              <!-- Nút Xem Task chi tiết -->
+              <a href="{{ route('users.show', $user) }}" class="btn btn-sm btn-info">Task</a>
+              <!-- Nút Sửa -->
               <a href="{{ route('users.edit', $user) }}" class="btn btn-sm btn-primary">Edit</a>
-              <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline">
-                @csrf @method('DELETE')
-                <button class="btn btn-sm btn-danger"
-                        onclick="return confirm('Bạn có chắc muốn xóa?')">
-                  Delete
-                </button>
+              <!-- Nút Xóa -->
+              <form action="{{ route('users.destroy', $user) }}" method="POST" class="d-inline-block" onsubmit="return confirm('Bạn có chắc muốn xóa?');">
+                @csrf
+                @method('DELETE')
+                <button class="btn btn-sm btn-danger">Delete</button>
               </form>
             </td>
           </tr>
