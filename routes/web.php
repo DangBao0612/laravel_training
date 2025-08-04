@@ -20,7 +20,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-
     Route::resource('users', UserController::class)
         ->names('users')
         ->middleware('superadmin');
@@ -31,5 +30,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('lang/{locale}', [LangController::class, 'switch'])
         ->name('lang.switch');
+
 
 require __DIR__.'/auth.php';

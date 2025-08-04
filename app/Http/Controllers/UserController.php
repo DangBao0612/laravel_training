@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\User; 
 
 use Illuminate\Http\Request;
 
@@ -11,7 +12,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        //
+        $users = User::all();
+        return view('users.index', compact('users'));
     }
 
     /**
@@ -33,9 +35,11 @@ class UserController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(User $user)
     {
-        //
+        // Lấy tất cả task của user, order theo created_at
+        $tasks = $user->tasks()->orderBy('created_at','desc')->get();
+        return view('users.show', compact('user','tasks'));
     }
 
     /**
