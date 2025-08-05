@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 use App\Models\User; 
-
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUserRequest; // Form Request để validate khi tạo user
+use App\Http\Requests\UpdateUserRequest;
 
 class UserController extends Controller
 {
@@ -12,7 +13,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::all();
+        // Eager-load luôn mối quan hệ tasks
+        $users = User::with('tasks')->get();
         return view('users.index', compact('users'));
     }
 
@@ -21,15 +23,31 @@ class UserController extends Controller
      */
     public function create()
     {
-        //
+        return view('users.create');
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(StoreUserRequest $request)
     {
-        //
+        /* Validate
+        $request->validate([
+            'name'                  => 'required|string|max:255',
+            'email'                 => 'required|email|unique:users,email',
+            'password'              => 'required|string|min:8|confirmed',
+        ]); đã có form request, có thể bỏ qua bước này */
+
+        // Tạo User, hash password
+        $user = User::create([
+            'name'     => $request->input('name'),
+            'email'    => $request->input('email'),
+            'password' => bcrypt($request->input('password')),
+        ]);
+
+        return redirect()
+            ->route('users.show', $user)
+            ->with('success','User đã được tạo.');
     }
 
     /**
@@ -45,24 +63,45 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(User $user)
     {
-        //
+        return view('users.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(UpdateUserRequest $request, User $user)
     {
-        //
+        /* $request->validate([
+        'name'  => 'required|string|max:255',
+        'email' => 'required|email|unique:users,email,'.$user->id,
+        ]); */
+
+        // Chỉ lấy name & email (đã chắc chắn hợp lệ)
+        $data = $request->only('name', 'email');
+
+        // Nếu user nhập password mới, hash và thêm vào data
+        if ($request->filled('password')) {
+            $data['password'] = bcrypt($request->input('password'));
+        }
+
+        $user->update($data);
+
+        return redirect()
+            ->route('users.show', $user)
+            ->with('success', 'User đã được cập nhật.');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(User $user)
     {
-        //
+        $user->delete();
+
+        return redirect()
+        ->route('users.index')
+        ->with('success','User đã bị xóa.');
     }
 }
